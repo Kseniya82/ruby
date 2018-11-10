@@ -15,8 +15,8 @@ valid_triangle = ab < bc + ac && ab > (bc - ac).abs
 sides = [ab, bc, ac].sort
 angle_90 = sides[-1]**2 == sides[0]**2 + sides[1]**2
 isosceles_right_triangle = sides[0] == sides[1] && angle_90
-equilateral_triangle = sides[0] == sides[1] && sides[1] == sides[-1]
-if valid_triangle
+equilateral_triangle = sides[0] == sides[-1]
+if !valid_triangle
   puts 'По введенным значениям сторон нельзя построить треугольник'
 elsif isosceles_right_triangle
   puts "Треугольник является прямоугольным и равнобедренным"
