@@ -1,16 +1,17 @@
 puts 'Введите коээфициент a квадратного уравнения'
-a=gets.chomp.to_f
+a = gets.to_f
 puts 'Введите коээфициент b квадратного уравнения'
-b=gets.chomp.to_f
+b = gets.to_f
 puts 'Введите коээфициент c квадратного уравнения'
-c=gets.chomp.to_f
-d=b**2-4*a*c
-if d>0
-  x1=(-b+Math.sqrt(d))/(2*a)
-  x2=(-b-Math.sqrt(d))/(2*a)
+c = gets.to_f
+d = b**2 - 4 * a * c
+if d > 0
+  sqrt_d = Math.sqrt(d)
+  x1 = (-b + sqrt_d)/(2 * a)
+  x2 = (-b - sqrt_d)/(2 * a)
   puts "Дискриминант #{d} корни уравнения #{x1}, #{x2}"
-elsif d==0
-  x1=-b / (2*a)
+elsif d == 0
+  x1 = -b/(2 * a)
   puts "Дискриминант #{d} корень уравнения #{х1}"
 else
   puts "Дискриминант #{d}, действительных корней нет"

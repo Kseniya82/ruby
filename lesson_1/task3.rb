@@ -6,35 +6,22 @@
 =end
 
 puts "Введите 1 сторону треугольника"
-ab=gets.chomp.to_i
+ab = gets.to_i
 puts "Введите 2 сторону треугольника"
-ac=gets.chomp.to_i
+ac = gets.to_i
 puts "Введите 3 сторону треугольника"
-bc=gets.chomp.to_i
-triangle=false #признак трeугольника
-angle_90=false
-triangle=true if ab<bc+ac && ab>(bc-ac).abs
-if triangle && ab>bc && ab>ac
-  if ab**2==bc**2+ac**2
-    puts 'Треугольник является прямоугольным'
-    agle_90=true
-  end
-elsif triangle && bc>ac
-  if bc**2==ab**2+ac**2
-    puts 'Треугольник является прямоугольным'
-    agle_90=true
-  end
-else
-  if (bc**2==ab**2+ac**2) && triangle
-    puts 'Треугольник является прямоугольным'
-    agle_90=true
-  end
+bc = gets.to_i
+#triangle=false #признак трeугольника
+#angle_90=false
+valid_triangle = ab < bc + ac && ab > (bc - ac).abs
+sides = [ab, bc, ac].sort
+angle_90 = sides[-1]**2 == sides[0]**2 + sides[1]**2
+equals_2sides = sides[0] == sides[1] if angle_90
+equals_3sides = sides[0] == sides[1] && sides[1] == sides[-1]
+if equals_2sides
+  puts "Треугольник является прямоугольным и равнобедренным"
+elsif angle_90
+  puts 'Треугольник является прямоугольным'
 end
-
-if angle_90 && triangle && (ab==bc || bc==ac)
-  puts "Треугольник является равнобедренным"
-elsif ab==bc && ac==bc
-  puts 'Треугольник является равносторонним'
-end
-
-puts 'По введенным значениям сторон нельзя построить треугольник' unless triangle
+puts "Треугольник является равносторонни" if equals_3sides
+puts 'По введенным значениям сторон нельзя построить треугольник' unless valid_triangle
