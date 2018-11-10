@@ -11,17 +11,19 @@ puts "Введите 2 сторону треугольника"
 ac = gets.to_i
 puts "Введите 3 сторону треугольника"
 bc = gets.to_i
-#triangle=false #признак трeугольника
-#angle_90=false
 valid_triangle = ab < bc + ac && ab > (bc - ac).abs
 sides = [ab, bc, ac].sort
 angle_90 = sides[-1]**2 == sides[0]**2 + sides[1]**2
-equals_2sides = sides[0] == sides[1] if angle_90
-equals_3sides = sides[0] == sides[1] && sides[1] == sides[-1]
-if equals_2sides
+isosceles_right_triangle = sides[0] == sides[1] && angle_90
+equilateral_triangle = sides[0] == sides[1] && sides[1] == sides[-1]
+if valid_triangle
+  puts 'По введенным значениям сторон нельзя построить треугольник'
+elsif isosceles_right_triangle
   puts "Треугольник является прямоугольным и равнобедренным"
 elsif angle_90
   puts 'Треугольник является прямоугольным'
+elsif equilateral_triangle
+  puts "Треугольник является равносторонни"
+else
+  puts 'Треугольник не является ни пряомугольным ни равносторонним'
 end
-puts "Треугольник является равносторонни" if equals_3sides
-puts 'По введенным значениям сторон нельзя построить треугольник' unless valid_triangle
