@@ -1,4 +1,4 @@
-my_cart = Hash.new { Hash.new }
+my_cart = {}
 puts "Введите наименование товара или слово стоп для окончания ввода покупок"
 product = gets.chomp
 until product.upcase == "СТОП"
@@ -6,16 +6,16 @@ until product.upcase == "СТОП"
   price_product = gets.to_f
   puts "Введите кол-во товара"
   count_product = gets.to_i
-  my_cart[product]={price_product => count_product}
+  my_cart[product]={ price: price_product, quantity: count_product }
   puts "Введите наименование товара или слово стоп для окончания ввода покупок"
   product = gets.chomp
 end
 total_cost = 0
-my_cart.each do |key, value|
-  value.each do |price, count|
-    cost = price * count
-    total_cost += cost
-    puts "Продукт: #{key}, цена: #{price}, кол-во: #{count} стоимость #{cost}"
-  end
+my_cart.each_key do |product|
+  price = my_cart[product][:price]
+  count = my_cart[product][:quantity]
+  cost = price * count
+  total_cost += cost
+  puts "Продукт: #{product}, цена: #{price}, кол-во: #{count} стоимость #{cost}"
 end
-puts "Итоговаястоимость товаров в корзине: #{total_cost}"
+puts "Итоговая стоимость товаров в корзине: #{total_cost}"

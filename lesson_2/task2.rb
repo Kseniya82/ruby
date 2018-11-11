@@ -1,7 +1,3 @@
-number_arr = Array.new
-i = 10
-while i <= 100
-  number_arr.push(i)
-  i += 5
-end
+number_arr = []]
+number_arr = (10..100).step(5).to_a
 puts number_arr

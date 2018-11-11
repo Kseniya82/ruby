@@ -1,9 +1,8 @@
 letters = ("a".."z")
 vowels_arr = ["a","e","i","o","u"]
-vawels_hash = Hash.new
+vawels_hash = {}
 letters_arr = letters.to_a
-vowels_arr.each do |vowel|
-  index = letters_arr.index(vowel)
-  vawels_hash[vowel] = index + 1
+letters.each_with_index do |letter, index|
+  vawels_hash[letter] = index + 1 if vowels_arr.any?(letter)
 end
 puts vawels_hash

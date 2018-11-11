@@ -1,16 +1,16 @@
 month_hash = {
-  "Январь" => 31,
-  "Феварль" => 28,
-  "Март" => 31,
-  "Апрель" => 30,
-  "Май" => 31,
-  "Июнь" => 30,
-  "Июль" => 31,
-  "Август" => 31,
-  "Сентябрь" => 30,
-  "Октябрь" => 31,
-  "Ноябрь" => 30,
-  "Декабрь" => 31,
+  Janvary: 31,
+  Febrary: 28,
+  March: => 31,
+  April: => 30,
+  May: => 31,
+  June: => 30,
+  Jule: => 31,
+  August: => 31,
+  September: => 30,
+  Oktober: => 31,
+  November: => 30,
+  December: => 31,
 }
 month_hash.each do |month, count_day|
   puts month if count_day == 30
