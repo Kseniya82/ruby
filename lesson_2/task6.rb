@@ -11,11 +11,9 @@ until product.upcase == "СТОП"
   product = gets.chomp
 end
 total_cost = 0
-my_cart.each_key do |product|
-  price = my_cart[product][:price]
-  count = my_cart[product][:quantity]
-  cost = price * count
+my_cart.each do |name, info|
+  cost = info[:price] * info[:quantity]
   total_cost += cost
-  puts "Продукт: #{product}, цена: #{price}, кол-во: #{count} стоимость #{cost}"
+  puts "Продукт: #{name}, цена: #{info[:price]}, кол-во: #{info[:quantity]} стоимость #{cost}"
 end
 puts "Итоговая стоимость товаров в корзине: #{total_cost}"
