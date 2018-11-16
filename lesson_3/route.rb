@@ -1,5 +1,5 @@
 class Route
-  attr_accessor :stations
+  attr_reader :stations
 
   def initialize(first_station, last_station)
     @stations = [first_station, last_station]
@@ -14,7 +14,7 @@ class Route
   end
 
   def show_stations
-    puts "Список станций в маршруте:"
+    puts 'Список станций в маршруте:'
     @stations.each { |station| puts station.name }
   end
 end

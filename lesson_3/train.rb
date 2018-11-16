@@ -1,9 +1,6 @@
 class Train
-  attr_accessor :count_car
-  attr_accessor :speed
-  attr_accessor :current_station
-  attr_accessor :route
-  attr_accessor :type
+  attr_accessor :count_car, :speed, :type, :current_station
+  attr_reader :route
 
   def initialize(number, type, count_car)
     @number = number
@@ -16,8 +13,12 @@ class Train
     @speed = speed
   end
 
-  def stop
-    @speed = 0
+  def decrease_speed(delta)
+    if speed - delta > 0
+      @speed -= delta
+    else
+      @speed = 0
+    end
   end
 
   def add_car
@@ -25,35 +26,36 @@ class Train
   end
 
   def delete_car
-    @count_car -= 1 if @speed == 0
+    @count_car -= 1 if @speed == 0 && @count_car > 1
   end
 
   def add_route(route)
     @route = route
-    @current_station = route.stations[0]
+    @current_station = 0
+    @route.stations[@current_station].add_train(self)
   end
 
   def forward_motion
-    @current_station = next_station
+    if next_station
+      @route.stations[@current_station].departure_train(self)
+      @route.stations[next_station].add_train(self)
+      @current_station += 1
+    end
   end
 
   def backward_motion
-    @current_station = last_station
+    if previous_station
+      @route.stations[@current_station].departure_train(self)
+      @route.stations[previous_station].add_train(self)
+      @current_station -= 1
+    end
   end
 
-  def last_station
-    last_station = if @route.stations.index(current_station) != 0
-                     @route.stations[@route.stations.index(current_station) - 1]
-                   else
-                     current_station
-                   end
+  def previous_station
+    previous_station = current_station - 1 if @current_station != 0
   end
 
   def next_station
-    next_station = if @route.stations.index(@current_station) != -1
-                     @route.stations[@route.stations.index(@current_station) + 1]
-                   else
-                     current_station
-                   end
+    next_station = @current_station + 1 if @current_station != @route.stations.length - 1
   end
 end
