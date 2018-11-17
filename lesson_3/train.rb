@@ -1,6 +1,6 @@
 class Train
-  attr_reader :count_car, :speed, :type
-  
+  attr_reader :count_car, :speed, :type, :route
+
   def initialize(number, type, count_car)
     @number = number
     @type = type
@@ -36,7 +36,7 @@ class Train
 
   def forward_motion
     if next_station
-      @route.stations[@current_station].departure_train(self)
+      current_station.departure_train(self)
       next_station.add_train(self)
       @current_station += 1
     end
@@ -44,7 +44,7 @@ class Train
 
   def backward_motion
     if previous_station
-      @route.stations[@current_station].departure_train(self)
+      current_station.departure_train(self)
       previous_station.add_train(self)
       @current_station -= 1
     end
@@ -56,7 +56,6 @@ class Train
   end
 
   def next_station
-    return if @current_station == @route.stations.length - 1
     @route.stations[@current_station + 1]
   end
 
