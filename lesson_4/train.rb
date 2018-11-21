@@ -1,5 +1,5 @@
 class Train
-  attr_reader :speed, :route, :cars
+  attr_reader :speed, :route, :cars, :number, :type
 
   def initialize(number)
     @number = number
@@ -17,6 +17,14 @@ class Train
     else
       @speed = 0
     end
+  end
+
+  def add_car(car)
+    cars << car if car.type == type
+  end
+
+  def delete_car
+    cars.delete_at(-1)
   end
 
   def add_route(route)

@@ -1,3 +1,6 @@
 class CargoCar < Car
-  @type = :cargo
+  attr_reader :type
+  def initialize
+    @type = :cargo
+  end
 end
