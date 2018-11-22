@@ -23,6 +23,9 @@ class Main
     end
   end
 
+  private
+  #напрямую к методам из пользовательнского интерфейса лучше не обращаться
+
   def show_main_menu
     puts 'Выберите пункт меню, 0 - для выхода:'
     puts '1 - Создать станцию'
@@ -38,8 +41,8 @@ class Main
   def call_main_menu_handler(choice)
     case choice
     when 1 then create_station
-    when 2 then case_create_train
-    when 3 then show_menu_create_route
+    when 2 then create_train
+    when 3 then call_menu_create_route_handler
     when 4 then add_route_at_train
     when 5 then add_car_to_train
     when 6 then delete_car_from_train
@@ -47,9 +50,6 @@ class Main
     when 8 then show_station_and_train_on_station
     end
   end
-
-private
-#напрямую к методам из пользовательнского интерфейса лучше не обращаться
 
   def create_station
     loop do
@@ -61,92 +61,102 @@ private
     end
   end
 
-  def case_create_train
+  def get_train_number
+    puts 'Введите номер поезда или 0 для выхоа'
+    number_train = gets.chomp
+    return if number_train == '0'
+  end
+
+  def create_train
     loop do
-      puts 'Введите номер поезда или 0 для выхоа'
-      number_train = gets.chomp
-      break if number_train == '0'
-      create_train(number_train)
+      train_number = get_train_number
+      break if train_number = '0'
+      train_type = get_train_type
+      return if train_number.nil? || train_type.nil?
+      train_type.new(train_number)
     end
   end
 
-  def create_train(number_train)
+  def get_train_type
     puts 'Введите тип поезда: 1- пассажирский, 2 - грузовой'
     case gets.to_i
-      when 1 then train = PassengerTrain.new(number_train)
-      when 2 then train = CargoTrain.new(number_train)
-    else
-      puts 'Ошибка вввода'
+    when 1 then PassengerTrain
+    when 2 then CargoTrain
     end
-    @trains << train
   end
 
   def show_menu_create_route
-    loop do
-      puts 'Выберите пункт меню, 0 для выхода'
-      puts '1 - Создать маршрут'
-      puts '2 - Добаивть станцию к маршруту'
-      puts '3 - Удалить станцию и маршрута'
-      choice_menu_route = gets.to_i
-      break if choice_menu_route.zero?
-      call_menu_create_route_handler(choice_menu_route)
-    end
+    puts 'Выберите пункт меню, 0 для выхода'
+    puts '1 - Создать маршрут'
+    puts '2 - Добаивть станцию к маршруту'
+    puts '3 - Удалить станцию и маршрута'
   end
 
-  def call_menu_create_route_handler (choice)
-    case choice
-    when 1 then create_route
-    when 2 then add_station_in_route
-    when 3 then delete_station_from_route
+  def call_menu_create_route_handler
+    loop do
+      show_menu_create_route
+      choice_menu_route = gets.to_i
+      break if choice_menu_route.zero?
+      case choice_menu_route
+      when 1 then create_route
+      when 2 then add_station_in_route
+      when 3 then delete_station_from_route
+      end
     end
   end
 
   def create_route
-    loop do
-      puts 'Выберите начальную станцию'
-      start_station = select_station
-      break if !start_station
-      puts 'Выберите конечную станцию'
-      end_station = select_station
-      return if start_station.nil? || end_station.nil?
-      return if start_station == end_station
-      @routed << Route.new(start_station, end_station)
-    end
+    puts 'Выберите начальную станцию'
+    start_station = select_station
+    puts 'Выберите конечную станцию'
+    end_station = select_station
+    return if start_station.nil? || end_station.nil?
+    return if start_station == end_station
+    @routed << Route.new(start_station, end_station)
   end
 
   def add_station_in_route
     route = select_route
     station = select_station
+    return if route.nil? || station.nil?
     route.add_station(station)
   end
 
   def delete_station_from_route
     route = select_route
-    station = select_station
+    station = select_station_in_route(route)
+    return if route.nil? || station.nil?
     route.delete_station(station)
   end
 
   def add_route_at_train
     train = select_train
     route = select_route
+    return if route.nil? || train.nil?
     train.add_route(route)
   end
 
   def add_car_to_train
     loop do
-      break if !select_train
       train = select_train
-      if train.type == :passenger
-        car = PassengerCar.new
-      else
-        car = CargoCar.new
-      end
+      break if train.nil?
+      car = get_car
+      return if train.nil? || car.nil?
       train.add_car(car)
+    end
+  end
+
+  def get_car
+    puts 'Введите тип вагода: 1- пассажирский, 2 - грузовой'
+    case gets.to_i
+    when 1 then PassengerCar.new
+    when 2 then CargoCar.new
     end
   end
 
   def delete_car_from_train
     train = select_train
+    return if train.nil?
     train.delete_car
   end
 
@@ -167,6 +177,14 @@ private
     @stations[choice - 1]
   end
 
+  def select_station_in_route(route)
+    show_stations_in_route(route)
+    puts "Выберите порядковый номер станции или 0 для выхода"
+    choice = gets.to_i
+    return if choice.zero?
+    route.stations[choice - 1]
+  end
+
   def select_train
     puts 'Введите порядковый номер поезда или 0 для выхода'
     show_trains
@@ -178,12 +196,19 @@ private
   def select_route
     puts 'Введите порядковый номер маршрута'
     show_routed
-    @routed[gets.to_i - 1]
+    index = gets.to_i
+    return if index.zero?
+    @routed[index - 1]
   end
+
   def select_motion
     puts 'Введите направление движения'
     puts '1 -вперед, 2 - назад'
     gets.to_i
+  end
+
+  def show_stations_in_route(route)
+    route.stations.each_witb_index { |station, index| puts "Номер п/п #{index + 1}, имя станции #{station.name}" }
   end
 
   def show_station_and_train_on_station
@@ -196,7 +221,7 @@ private
 
   def show_trains
     @trains.each_with_index do |train, index|
-      puts "номер п/п #{index + 1}, номер поезда #{train.number}, тип поезда #{train.type}"
+      puts "номер п/п #{index + 1}, номер поезда #{train.number}"
     end
   end
 
@@ -215,7 +240,7 @@ private
 
   def show_train_on_station(index)
     @stations[index].trains.each do |train|
-      puts "Номер поезда #{train.number}, тип поезда #{train.type}"
+      puts "Номер поезда #{train.number}"
     end
   end
 end

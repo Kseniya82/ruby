@@ -1,6 +1,5 @@
 class CargoTrain < Train
-  def initialize(number)
-    super(number)
-    @type = :cargo
+  def add_car(car)
+    cars << car if car.is_a? CargoCar
   end
 end
