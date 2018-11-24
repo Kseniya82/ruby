@@ -19,6 +19,12 @@ class Train
     end
   end
 
+  def add_car(car)
+     return unless @speed == 0
+     return unless attachable_car?(car)
+     cars << car
+  end
+
   def delete_car
     cars.delete_at(-1)
   end

@@ -63,7 +63,7 @@ class Main
 
   def get_train_number
     puts 'Введите номер поезда или 0 для выхоа'
-    number_train = gets.chomp
+    gets.chomp
   end
 
   def create_train
@@ -137,17 +137,16 @@ class Main
     loop do
       train = select_train
       break if train.nil?
-      car = get_car
+      car = get_car(train)
       return if train.nil? || car.nil?
       train.add_car(car)
     end
   end
 
-  def get_car
-    puts 'Введите тип вагода: 1- пассажирский, 2 - грузовой'
-    case gets.to_i
-    when 1 then PassengerCar.new
-    when 2 then CargoCar.new
+  def get_train_car(train)
+    case train
+    when PassengerTrain then PassengerCar.new
+    when CargoTrain then CargoCar.new
     end
   end
 
@@ -168,7 +167,7 @@ class Main
   end
 
   def select_station
-    show_stations
+    show_stations(@stations)
     puts "Выберите порядковый номер станции или 0 для выхода"
     choice = gets.to_i
     return if choice.zero?
@@ -176,7 +175,7 @@ class Main
   end
 
   def select_station_in_route(route)
-    route.show_stations
+    show_stations(route.stations)
     puts "Выберите порядковый номер станции или 0 для выхода"
     choice = gets.to_i
     return if choice.zero?
@@ -207,7 +206,7 @@ class Main
 
   def show_station_and_train_on_station
     puts 'Список станций'
-    show_stations
+    show_stations(@stations)
     puts 'Выберите станцию для отображения списка поездов на ней'
     indew_station = gets.to_i - 1
     show_train_on_station(indew_station)
@@ -226,8 +225,8 @@ class Main
     end
   end
 
-  def show_stations
-    @stations.each_with_index do |station, index|
+  def show_stations(stations)
+    stations.each_with_index do |station, index|
       puts "номер п/п #{index + 1}, название станции: #{station.name}"
     end
   end
