@@ -12,9 +12,5 @@ class Route
   def delete_station(station)
     @stations.delete(station)
   end
-
-  def show_stations
-    puts 'Список станций в маршруте:'
-    @stations.each { |station| puts station.name }
-  end
+  
 end

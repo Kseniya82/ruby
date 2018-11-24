@@ -64,16 +64,15 @@ class Main
   def get_train_number
     puts 'Введите номер поезда или 0 для выхоа'
     number_train = gets.chomp
-    return if number_train == '0'
   end
 
   def create_train
     loop do
       train_number = get_train_number
-      break if train_number = '0'
+      break if train_number == '0'
       train_type = get_train_type
       return if train_number.nil? || train_type.nil?
-      train_type.new(train_number)
+      @trains << train_type.new(train_number)
     end
   end
 
@@ -106,9 +105,7 @@ class Main
   end
 
   def create_route
-    puts 'Выберите начальную станцию'
     start_station = select_station
-    puts 'Выберите конечную станцию'
     end_station = select_station
     return if start_station.nil? || end_station.nil?
     return if start_station == end_station
@@ -163,6 +160,7 @@ class Main
   def train_motion
     train = select_train
     choice_motion = select_motion
+    return if train.nil? || train.route.nil?
     case choice_motion
     when 1 then train.forward_motion
     when 2 then train.backward_motion
@@ -178,7 +176,7 @@ class Main
   end
 
   def select_station_in_route(route)
-    show_stations_in_route(route)
+    route.show_stations
     puts "Выберите порядковый номер станции или 0 для выхода"
     choice = gets.to_i
     return if choice.zero?
@@ -205,10 +203,6 @@ class Main
     puts 'Введите направление движения'
     puts '1 -вперед, 2 - назад'
     gets.to_i
-  end
-
-  def show_stations_in_route(route)
-    route.stations.each_witb_index { |station, index| puts "Номер п/п #{index + 1}, имя станции #{station.name}" }
   end
 
   def show_station_and_train_on_station

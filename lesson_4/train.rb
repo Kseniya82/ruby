@@ -47,7 +47,6 @@ class Train
 
   def previous_station
     return unless @current_station > 0
-
     @route.stations[@current_station - 1]
   end
 

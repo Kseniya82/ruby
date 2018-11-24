@@ -1,2 +1,3 @@
 class CargoCar < Car
+  
 end
