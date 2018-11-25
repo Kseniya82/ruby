@@ -6,8 +6,10 @@ require_relative 'cargo_train'
 require_relative 'passenger_train'
 require_relative 'route'
 require_relative 'station'
+
 class Main
   attr_reader :trains, :routed, :stations
+
   def initialize
     @routed = []
     @stations = []
@@ -27,7 +29,6 @@ class Main
   private
 
   # напрямую к методам из пользовательнского интерфейса лучше не обращаться
-
   def show_main_menu
     puts 'Выберите пункт меню, 0 - для выхода:'
     puts '1 - Создать станцию'

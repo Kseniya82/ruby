@@ -1,9 +1,12 @@
-require 'byebug'
 require_relative 'instance_counter'
+
 class Station
   include InstanceCounter
+
   attr_reader :trains, :name
+
   @@stations = []
+
   def self.all
     @@stations
   end
