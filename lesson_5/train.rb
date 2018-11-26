@@ -9,8 +9,8 @@ class Train
 
   @@trains = {}
 
-  def self.trains
-    @@trains
+  def self.all
+    @@trains.values
   end
 
   def self.find(number)

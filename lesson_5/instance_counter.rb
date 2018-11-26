@@ -20,7 +20,7 @@ module InstanceCounter
     protected
 
     def register_instance
-      self.class.send (:add_instance)
+      self.class.send(:add_instance)
     end
   end
 end
