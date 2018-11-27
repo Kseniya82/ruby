@@ -37,12 +37,17 @@ module MenuTrain
   end
 
   def create_train
+  begin
     train_number = get_train_number
     return  if train_number == '0'
     train_type = get_train_type
     return if train_number.nil? || train_type.nil?
     train = train_type.new(train_number)
     @trains << train
+  rescue RuntimeError
+    puts 'Неверный номер, повторите ввод'
+    retry
+  end
     show_success_train_create(train) if train.valid?
     call_menu_train if return?
   end
