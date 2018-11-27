@@ -8,6 +8,8 @@ class Train
   attr_reader :speed, :route, :cars, :number
 
   NUMBER_FORMAT = /^\w{3}-?\w{2}$/
+  ERROR_NUMBER_FORMAT = 'Неверный формат номера'
+  ERROR_EMPTY_NUMBER = 'Введен пустой номер'
 
   @@trains = {}
 
@@ -95,7 +97,7 @@ class Train
   protected
 
   def validate!
-    raise "Номер не может быть пустым" if @number.nil?
-    raise "Неверный формат номера" if @number !~ NUMBER_FORMAT
+    raise ERROR_EMPTY_NUMBER if @number.nil?
+    raise ERROR_NUMBER_FORMAT if @number !~ NUMBER_FORMAT
   end
 end

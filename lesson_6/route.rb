@@ -5,7 +5,12 @@ class Route
 
   attr_reader :stations
 
+  ERROR_NO_EXIST_STATION = 'Одна или более станций не существует'
+  ERROR_EQUALS_STATION = 'Начальная и конечная станция совпадают'
+
   def initialize(first_station, last_station)
+    @first_station = first_station
+    @last_station = last_station
     validate!
     @stations = [first_station, last_station]
     register_instance
@@ -29,9 +34,8 @@ class Route
   protected
 
   def validate!
-    raise "Имя не может быть пустым" if first_station.nil? || lasr_station.nil?
-    raise 'Неверный ввод первой станции' if @stations[0].!include? Station.stations
-    raise 'Неверный ввод последней станции'if @stations[1].!include? Station.stations
+    raise ERROR_NO_EXIST_STATION if @first_station.is_a?(Station) || @last_station.is_a?(Station)
+    raise ERROR_EQUALS_STATION if @first_station.is_a?(Station) == @last_station.is_a?(Station)
   end
 
 end
