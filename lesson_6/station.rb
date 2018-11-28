@@ -5,7 +5,7 @@ class Station
 
   attr_reader :trains, :name
 
-  ERROR_EMPTY_NAME ='Введено пустое имя'
+  EMPTY_NAME_ERROR ='Введено пустое имя'
 
   @@stations = []
 
@@ -39,6 +39,6 @@ class Station
   protected
 
   def validate!
-    raise ERROR_EMPTY_NAME if @name.nil?
+    raise EMPTY_NAME_ERROR if @name.nil?
   end
 end

@@ -44,8 +44,8 @@ module MenuTrain
     return if train_number.nil? || train_type.nil?
     train = train_type.new(train_number)
     @trains << train
-  rescue RuntimeError
-    puts 'Неверный номер, повторите ввод'
+  rescue RuntimeError => e
+    puts e.message
     retry
   end
     show_success_train_create(train) if train.valid?
