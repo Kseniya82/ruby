@@ -5,8 +5,8 @@ class Route
 
   attr_reader :stations
 
-  ERROR_NO_EXIST_STATION = 'Одна или более станций не существует'
-  ERROR_EQUALS_STATION = 'Начальная и конечная станция совпадают'
+  NO_EXIST_STATION_ERROR = 'Одна или более станций не существует'
+  EQUALS_STATION_ERROR = 'Начальная и конечная станция совпадают'
 
   def initialize(first_station, last_station)
     @first_station = first_station
@@ -34,8 +34,8 @@ class Route
   protected
 
   def validate!
-    raise ERROR_NO_EXIST_STATION if @first_station.is_a?(Station) || @last_station.is_a?(Station)
-    raise ERROR_EQUALS_STATION if @first_station.is_a?(Station) == @last_station.is_a?(Station)
+    raise NO_EXIST_STATION_ERROR unless @first_station.is_a?(Station) && @last_station.is_a?(Station)
+    raise EQUALS_STATION_ERROR if @first_station.is_a?(Station) == @last_station.is_a?(Station)
   end
 
 end
