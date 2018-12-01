@@ -30,8 +30,8 @@ class Train
     @@trains[number] = self
   end
 
-  def with_each_car_do (&block)
-    @cars.each { |car| yield(car)}
+  def each_car
+    @cars.each { |car| yield(car) }
   end
 
   def valid?

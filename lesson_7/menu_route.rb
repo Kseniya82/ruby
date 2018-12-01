@@ -8,7 +8,6 @@ module MenuRoute
     call_route_menu_handler(choice)
   end
 
-
   def show_menu_route
     puts 'Выберите пункт меню, 0 для выхода'
     puts '1 - Создать маршрут'

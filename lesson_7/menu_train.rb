@@ -20,11 +20,9 @@ module MenuTrain
  def show_menu_train
     puts 'Выберите пункт меню, 0 для выхода'
     puts '1 - Создать поезд'
-    puts '2 - Добавить вагон к поезду'
-    puts '3 - Убрать вагон из поезда'
-    puts '4 - Движение поезда'
-    puts '5 - Вывести список вагонов у поезда'
-    puts '6 - Возврат в предыдущее меню'
+    puts '2 - Движение поезда'
+    puts '3 - Действия с вагонами'
+    puts '4 - Возврат в предыдущее меню'
   end
 
   private
@@ -32,11 +30,9 @@ module MenuTrain
   def call_train_menu_handler(choice)
     case choice
     when 1 then create_train
-    when 2 then add_car_to_train
-    when 3 then delete_car_from_train
-    when 4 then train_motion
-    when 5 then list_of_cars
-    when 6 then run
+    when 2 then train_motion
+    when 3 then call_menu_car
+    when 4 then run
     end
   end
 
@@ -71,22 +67,6 @@ module MenuTrain
     end
   end
 
-  def list_of_cars
-    number = 0
-    train = select_train
-    if train.class == PassengerTrain
-      train.with_each_car_do { |car| puts "Номер вагона #{number += 1},
-      тип вагона: пассажирский,
-      кол-во свободных мест #{car.count_free_place},
-      кол-во занятых мест #{car.count_take_place}" }
-    else
-      train.with_each_car_do { |car| puts "Номер вагона #{number += 1},
-      тип вагона: грузовой,
-      свободный объем #{car.free_volume},
-      занятый объем #{car.take_volume}" }
-    end
-  end
-
   def show_return
     puts 'Желаете вернуться в предыдущее меню?'
     puts '1 - да, 0- нет'
@@ -98,29 +78,6 @@ module MenuTrain
     when 1 then PassengerTrain
     when 2 then CargoTrain
     end
-  end
-
-  def add_car_to_train
-    loop do
-      train = select_train
-      break if train.nil?
-      car = get_car(train)
-      return if train.nil? || car.nil?
-      train.add_car(car)
-    end
-  end
-
-  def get_car(train)
-    case train
-    when PassengerTrain then create_passenger_car
-    when CargoTrain then create_cargo_car
-    end
-  end
-
-  def delete_car_from_train
-    train = select_train
-    return if train.nil?
-    train.delete_car
   end
 
   def train_motion

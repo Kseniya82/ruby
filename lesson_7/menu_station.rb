@@ -47,7 +47,7 @@ module MenuStation
 
   def show_train(indew_station)
     station = @stations[indew_station]
-    station.with_each_train_do { |train| puts "Номер поезда #{train.number},
+    station.each_train { |train| puts "Номер поезда #{train.number},
     тип поезда:#{train.class},
     кол-во вагонов #{train.cars.length}" }
   end
