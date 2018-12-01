@@ -16,12 +16,10 @@ class Main
   end
 
   def run
-    loop do
-      show_main_menu
-      choice = gets.to_i
-      break if choice.zero?
-      call_main_menu_handler(choice)
-    end
+    show_main_menu
+    choice = gets.to_i
+    return if choice.zero?
+    call_main_menu_handler(choice)
   end
 
   private
@@ -40,6 +38,36 @@ class Main
     when 2 then call_menu_train
     when 3 then call_menu_route
     end
+  end
+
+  def return?
+    show_return
+    choice = gets.to_i
+    if choice == 1
+      true
+    else
+      false
+    end
+  end
+
+  def show_return
+    puts 'Желаете вернуться в предыдущее меню?'
+    puts '1 - да, 0- нет'
+  end
+
+  def retry?
+    show_retry
+    choice = gets.to_i
+    if choice == 1
+      true
+    else
+      false
+    end
+  end
+
+  def show_retry
+    puts 'Желаете повторить?'
+    puts '1 - да, 0- нет'
   end
 
 end

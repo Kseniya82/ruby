@@ -28,13 +28,13 @@ module MenuCar
   end
 
   def add_car_to_train
-    loop do
-      train = select_train
-      break if train.nil?
-      car = get_car(train)
-      return if train.nil? || car.nil?
-      train.add_car(car)
-    end
+    train = select_train
+    return call_menu_car if train.nil?
+    car = get_car(train)
+    return call_menu_car if car.nil?
+    train.add_car(car)
+    add_car_to_train  if retry?
+    call_menu_car
   end
 
   def get_car(train)
@@ -48,6 +48,7 @@ module MenuCar
     train = select_train
     return if train.nil?
     train.delete_car
+    call_menu_car
   end
 
   def create_passenger_car
@@ -66,48 +67,45 @@ module MenuCar
   end
 
   def get_volume
-    puts 'Введите объем вагона'
+    puts 'Введите объем'
     gets.to_i
   end
 
   def call_take_volume
     car = select_car
-    if car.class == PassengerCar
-      car.set_take_volume
-    else
-      volume = get_take_volume
-      car.set_ake_volume(volume)
-    end
-
+    volume = car.is_a?(CargoCar) ? get_volume : 1
+    car.take_volume(volume)
+    call_take_volume  if retry?
+    call_menu_car
   end
 
   def select_car
-    cars = list_of_cars
-    puts 'Введите порядковый номер вагона или 0 для выхода'
+    train = select_train
+    show_train_cars(train)
     choice = gets.to_i
     return if choice.zero?
-    cars[choice - 1]
-  end
-
-  def get_take_volume
-    puts 'Введите занимаемый в вагоне объем'
+    train.cars[choice - 1]
   end
 
   def list_of_cars
-    number = 0
     train = select_train
+    show_train_cars(train)
+    list_of_cars  if retry?
+    call_menu_car
+  end
+
+  def show_train_cars(train)
+    number = 0
     if train.class == PassengerTrain
       train.each_car { |car| puts "Номер вагона #{number += 1},
       тип вагона: пассажирский,
       кол-во свободных мест #{car.free_volume},
-      кол-во занятых мест #{car.take_volume}" }
+      кол-во занятых мест #{car.taken_volume}" }
     else
       train.each_car { |car| puts "Номер вагона #{number += 1},
       тип вагона: грузовой,
       свободный объем #{car.free_volume},
-      занятый объем #{car.take_volume}" }
+      занятый объем #{car.taken_volume}" }
     end
   end
-
-
 end

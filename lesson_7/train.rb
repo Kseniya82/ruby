@@ -102,6 +102,6 @@ class Train
 
   def validate!
     raise EMPTY_NUMBER_ERROR if @number.nil?
-    raise NUMBER_FORMA_ERROR if @number !~ NUMBER_FORMAT
+    raise NUMBER_FORMAT_ERROR if @number !~ NUMBER_FORMAT
   end
 end

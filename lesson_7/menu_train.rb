@@ -57,21 +57,6 @@ module MenuTrain
     call_menu_train if return?
   end
 
-  def return?
-    show_return
-    choice = gets.to_i
-    if choice == 1
-      true
-    else
-      false
-    end
-  end
-
-  def show_return
-    puts 'Желаете вернуться в предыдущее меню?'
-    puts '1 - да, 0- нет'
-  end
-
   def get_train_type
     puts 'Введите тип поезда: 1- пассажирский, 2 - грузовой'
     case gets.to_i
