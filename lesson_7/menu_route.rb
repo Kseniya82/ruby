@@ -2,10 +2,12 @@ require_relative 'route'
 
 module MenuRoute
   def call_menu_route
-    show_menu_route
-    choice = gets.to_i
-    return if choice.zero?
-    call_route_menu_handler(choice)
+    loop do
+      show_menu_route
+      choice = gets.to_i
+      break if choice.zero?
+      call_route_menu_handler(choice)
+    end
   end
 
   def show_menu_route
@@ -14,7 +16,6 @@ module MenuRoute
     puts '2 - Добаивть станцию к маршруту'
     puts '3 - Удалить станцию и маршрута'
     puts '4 - Присволить маршрут поезду'
-    puts '5 - Вернуться  в предыдущее меню'
   end
 
   def call_route_menu_handler(choice)
@@ -23,7 +24,6 @@ module MenuRoute
     when 2 then add_station_in_route
     when 3 then delete_station_from_route
     when 4 then add_route_at_train
-    when 5 then run
     end
   end
 

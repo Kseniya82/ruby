@@ -10,12 +10,11 @@ module MenuStation
   end
 
   def show_menu_station
-     puts 'Выберите пункт меню, 0 для выхода'
-     puts '1 - Создать станцию'
-     puts '2 - Показать список станций'
-     puts '3 - Показать список поездов на станции'
-     puts '4 - Возврат в предыдущее меню'
-   end
+    puts 'Выберите пункт меню, 0 для выхода'
+    puts '1 - Создать станцию'
+    puts '2 - Показать список станций'
+    puts '3 - Показать список поездов на станции'
+  end
 
   private
 
@@ -24,7 +23,6 @@ module MenuStation
     when 1 then create_station
     when 2 then show_stations(@stations)
     when 3 then show_train_on_station
-    when 4 then run
     end
   end
 

@@ -16,10 +16,12 @@ class Main
   end
 
   def run
-    show_main_menu
-    choice = gets.to_i
-    return if choice.zero?
-    call_main_menu_handler(choice)
+    loop do
+      show_main_menu
+      choice = gets.to_i
+      break if choice.zero?
+      call_main_menu_handler(choice)
+    end
   end
 
   private
@@ -30,6 +32,7 @@ class Main
     puts '1 - Станции'
     puts '2 - Поезда'
     puts '3 - Маршруты'
+    puts '4 - Вагоны'
   end
 
   def call_main_menu_handler(choice)
@@ -37,6 +40,7 @@ class Main
     when 1 then call_menu_station
     when 2 then call_menu_train
     when 3 then call_menu_route
+    when 4 then call_menu_car
     end
   end
 

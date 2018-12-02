@@ -11,18 +11,18 @@ module MenuTrain
   include MenuCar
 
  def call_menu_train
-   show_menu_train
-   choice = gets.to_i
-   return if choice.zero?
-   call_train_menu_handler(choice)
+   loop do
+     show_menu_train
+     choice = gets.to_i
+     break if choice.zero?
+     call_train_menu_handler(choice)
+   end
  end
 
  def show_menu_train
     puts 'Выберите пункт меню, 0 для выхода'
     puts '1 - Создать поезд'
     puts '2 - Движение поезда'
-    puts '3 - Действия с вагонами'
-    puts '4 - Возврат в предыдущее меню'
   end
 
   private
@@ -31,8 +31,6 @@ module MenuTrain
     case choice
     when 1 then create_train
     when 2 then train_motion
-    when 3 then call_menu_car
-    when 4 then run
     end
   end
 
@@ -42,19 +40,20 @@ module MenuTrain
   end
 
   def create_train
-  begin
-    train_number = get_train_number
-    return  if train_number == '0'
-    train_type = get_train_type
-    return if train_number.nil? || train_type.nil?
-    train = train_type.new(train_number)
-    @trains << train
-  rescue RuntimeError => e
-    puts e.message
-    retry
-  end
-    show_success_train_create(train) if train.valid?
-    call_menu_train if return?
+    loop do
+      begin
+        train_number = get_train_number
+        break  if train_number == '0'
+        train_type = get_train_type
+        return if train_number.nil? || train_type.nil?
+        train = train_type.new(train_number)
+        @trains << train
+      rescue RuntimeError => e
+        puts e.message
+        retry
+      end
+      show_success_train_create(train) if train.valid?
+    end
   end
 
   def get_train_type
