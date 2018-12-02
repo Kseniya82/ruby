@@ -77,15 +77,22 @@ module MenuCar
       break if car.nil?
       if car.is_a?(CargoCar)
         volume = get_volume
-        car.take_volume(volume)
+        take_volume = car.take_volume(volume)
+        show_take_error if take_volume.nil?
       else
-        car.take_volume
+        take_volume =  car.take_volume
+        show_take_error if take_volume.nil?
       end
     end
   end
 
+  def show_take_error
+    puts 'Нет достаточного кол-ва свободного места'
+  end
+
   def select_car
     train = select_train
+    return if train.nil?
     show_train_cars(train)
     choice = gets.to_i
     return if choice.zero?

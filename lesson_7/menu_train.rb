@@ -10,16 +10,16 @@ module MenuTrain
 
   include MenuCar
 
- def call_menu_train
-   loop do
-     show_menu_train
-     choice = gets.to_i
-     break if choice.zero?
-     call_train_menu_handler(choice)
-   end
- end
+  def call_menu_train
+    loop do
+      show_menu_train
+      choice = gets.to_i
+      break if choice.zero?
+      call_train_menu_handler(choice)
+    end
+  end
 
- def show_menu_train
+  def show_menu_train
     puts 'Выберите пункт меню, 0 для выхода'
     puts '1 - Создать поезд'
     puts '2 - Движение поезда'
