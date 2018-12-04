@@ -1,10 +1,6 @@
 module MenuCar
   private
 
-  def call_car_menu_handler(choice)
-    send(MenuCar.private_instance_methods[choice])
-  end
-
   def add_car_to_train
     loop do
       train = select_train

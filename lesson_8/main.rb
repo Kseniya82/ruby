@@ -11,6 +11,38 @@ class Main
   include MenuStation
   include MenuCar
 
+  MAIN_MENU = [
+    { handler: :call_menu_station, title: 'Станции' },
+    { handler: :call_menu_train, title: 'Поезда' },
+    { handler: :call_menu_route, title: 'Маршруты' },
+    { handler: :call_menu_car, title: 'Выгоны' }
+  ].freeze
+
+  MENU_STATION = [
+    { handler: :create_station, title: 'Создать станцию' },
+    { handler: :call_show_station, title: 'Показать список станций' },
+    { handler: :show_train_on_station, title: 'Показать список поездов на станции' }
+  ].freeze
+
+  MENU_ROUTE = [
+    { handler: :create_route, title: 'Создать маршрут' },
+    { handler: :add_station_in_route, title: 'Добаивть станцию к маршруту' },
+    { handler: :delete_station_from_route, title: 'Удалить станцию из маршрута' },
+    { handler: :add_route_at_train, title: 'Присволить маршрут поезду' }
+  ].freeze
+
+  MENU_CAR = [
+    { handler: :add_car_to_train, title: 'Добавить вагон к поезду' },
+    { handler: :delete_car_from_train, title: 'Убрать вагон из поезда' },
+    { handler: :call_take_volume, title: 'Занять место/объем в вагоне' },
+    { handler: :list_of_cars, title: 'Вывести список вагонов у поезда' }
+  ].freeze
+
+  MENU_TRAIN = [
+    { handler: :call_create_train, title: 'Создать поезд' },
+    { handler: :train_motion, title: 'Движение поезда' }
+  ].freeze
+
   def initialize
     @routed = []
     @stations = []
@@ -18,104 +50,44 @@ class Main
   end
 
   def run
-    loop do
-      show_main_menu
-      choice = gets.to_i
-      break if choice.zero?
-
-      call_main_menu_handler(choice)
-    end
+    call_menu(MAIN_MENU)
   end
 
   private
 
-  def call_main_menu_handler(choice)
-    send(self.class.private_instance_methods[choice + 1])
+  def show_menu_items(menu)
+    puts 'Выберите пункт меню или 0 для выхода'
+    index = 1
+    menu.each do |menu_item|
+      puts "#{index} - #{menu_item[:title]}"
+      index += 1
+    end
+  end
+
+  def call_menu(menu)
+    loop do
+      show_menu_items(menu)
+      choice = gets.to_i
+      break if choice.zero?
+
+      selected_item = menu[choice - 1]
+      send(selected_item[:handler]) if selected_item
+    end
   end
 
   def call_menu_station
-    show_menu_station
-    choice = gets.to_i
-    return if choice.zero?
-
-    call_station_menu_handler(choice)
+    call_menu(MENU_STATION)
   end
 
   def call_menu_train
-    loop do
-      show_menu_train
-      choice = gets.to_i
-      break if choice.zero?
-
-      call_train_menu_handler(choice)
-    end
+    call_menu(MENU_TRAIN)
   end
 
   def call_menu_route
-    loop do
-      show_menu_route
-      choice = gets.to_i
-      break if choice.zero?
-
-      call_route_menu_handler(choice)
-    end
+    call_menu(MENU_ROUTE)
   end
 
   def call_menu_car
-    loop do
-      show_menu_car
-      choice = gets.to_i
-      break if choice.zero?
-
-      call_car_menu_handler(choice)
-    end
-  end
-
-  def show_menu_car
-    puts 'Выберите пункт меню, 0 для выхода'
-    puts '1 - Добавить вагон к поезду'
-    puts '2 - Убрать вагон из поезда'
-    puts '3 - Занять место/объем в вагоне'
-    puts '4 - Вывести список вагонов у поезда'
-  end
-
-  def show_menu_route
-    puts 'Выберите пункт меню, 0 для выхода'
-    puts '1 - Создать маршрут'
-    puts '2 - Добаивть станцию к маршруту'
-    puts '3 - Удалить станцию и маршрута'
-    puts '4 - Присволить маршрут поезду'
-  end
-
-  def show_menu_station
-    puts 'Выберите пункт меню, 0 для выхода'
-    puts '1 - Создать станцию'
-    puts '2 - Показать список станций'
-    puts '3 - Показать список поездов на станции'
-  end
-
-  def show_menu_train
-    puts 'Выберите пункт меню, 0 для выхода'
-    puts '1 - Создать поезд'
-    puts '2 - Движение поезда'
-  end
-
-  def show_main_menu
-    puts 'Выберите интересующий Вас объект, 0 - для выхода:'
-    puts '1 - Станции'
-    puts '2 - Поезда'
-    puts '3 - Маршруты'
-    puts '4 - Вагоны'
-  end
-
-  def return?
-    show_return
-    choice = gets.to_i
-    choice == 1
-  end
-
-  def show_return
-    puts 'Желаете вернуться в предыдущее меню?'
-    puts '1 - да, 0- нет'
+    call_menu(MENU_CAR)
   end
 end

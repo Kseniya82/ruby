@@ -3,21 +3,18 @@ require_relative 'station'
 module MenuStation
   private
 
-  def call_station_menu_handler(choice)
-    send(MenuStation.private_instance_methods[choice])
-  end
-
   def create_station
-    puts 'Введите имя станции или 0 для выхода'
-    name_station = gets.chomp
-    return if name_station == '0'
+    loop do
+      puts 'Введите имя станции или 0 для выхода'
+      name_station = gets.chomp
+      break if name_station == '0'
 
-    station = Station.new(name_station)
-    @stations << station
-    call_menu_station if return?
+      station = Station.new(name_station)
+      @stations << station
+    end
   end
 
-  def call_shiw_station
+  def call_show_station
     show_stations(@stations)
   end
 

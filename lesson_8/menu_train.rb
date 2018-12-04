@@ -8,10 +8,6 @@ require_relative 'menu_car'
 module MenuTrain
   private
 
-  def call_train_menu_handler(choice)
-    send(MenuTrain.private_instance_methods[choice])
-  end
-
   def call_create_train
     loop do
       begin

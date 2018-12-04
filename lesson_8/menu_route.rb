@@ -3,10 +3,6 @@ require_relative 'route'
 module MenuRoute
   private
 
-  def call_route_menu_handler(choice)
-    send(MenuRoute.private_instance_methods[choice])
-  end
-
   def create_route
     start_station = select_station
     end_station = select_station
@@ -14,12 +10,15 @@ module MenuRoute
   end
 
   def add_station_in_route
-    route = select_route
-    station = select_station
-    return if route.nil? || station.nil?
+    loop do
+      route = select_route
+      break if route.nil?
 
-    route.add_station(station)
-    call_menu_route if return?
+      station = select_station
+      return if route.nil? || station.nil?
+
+      route.add_station(station)
+    end
   end
 
   def delete_station_from_route
@@ -28,16 +27,18 @@ module MenuRoute
     return if route.nil? || station.nil?
 
     route.delete_station(station)
-    call_menu_route if return?
   end
 
   def add_route_at_train
-    train = select_train
-    route = select_route
-    return if route.nil? || train.nil?
+    loop do
+      train = select_train
+      break if route.nil?
 
-    train.add_route(route)
-    call_menu_route if return?
+      route = select_route
+      return if route.nil? || train.nil?
+
+      train.add_route(route)
+    end
   end
 
   def select_station
