@@ -6,7 +6,16 @@ require_relative 'passenger_train'
 require_relative 'menu_car'
 
 module MenuTrain
+  MENU_TRAIN = [
+    { handler: :call_create_train, title: 'Создать поезд' },
+    { handler: :train_motion, title: 'Движение поезда' }
+  ].freeze
+
   private
+
+  def call_menu_train
+    call_menu(MENU_TRAIN)
+  end
 
   def call_create_train
     loop do

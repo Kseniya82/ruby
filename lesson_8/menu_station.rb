@@ -1,7 +1,17 @@
 require_relative 'station'
 
 module MenuStation
+  MENU_STATION = [
+    { handler: :create_station, title: 'Создать станцию' },
+    { handler: :call_show_station, title: 'Показать список станций' },
+    { handler: :show_train_on_station, title: 'Показать список поездов на станции' }
+  ].freeze
+
   private
+
+  def call_menu_station
+    call_menu(MENU_STATION)
+  end
 
   def create_station
     loop do

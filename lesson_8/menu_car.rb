@@ -1,5 +1,16 @@
 module MenuCar
+  MENU_CAR = [
+    { handler: :add_car_to_train, title: 'Добавить вагон к поезду' },
+    { handler: :delete_car_from_train, title: 'Убрать вагон из поезда' },
+    { handler: :call_take_volume, title: 'Занять место/объем в вагоне' },
+    { handler: :list_of_cars, title: 'Вывести список вагонов у поезда' }
+  ].freeze
+
   private
+
+  def call_menu_car
+    call_menu(MENU_CAR)
+  end
 
   def add_car_to_train
     loop do

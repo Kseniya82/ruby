@@ -1,7 +1,18 @@
 require_relative 'route'
 
 module MenuRoute
+  MENU_ROUTE = [
+    { handler: :create_route, title: 'Создать маршрут' },
+    { handler: :add_station_in_route, title: 'Добавить станцию к маршруту' },
+    { handler: :delete_station_from_route, title: 'Удалить станцию из маршрута' },
+    { handler: :add_route_at_train, title: 'Присволить маршрут поезду' }
+  ].freeze
+
   private
+
+  def call_menu_route
+    call_menu(MENU_ROUTE)
+  end
 
   def create_route
     start_station = select_station
@@ -32,7 +43,7 @@ module MenuRoute
   def add_route_at_train
     loop do
       train = select_train
-      break if route.nil?
+      break if train.nil?
 
       route = select_route
       return if route.nil? || train.nil?
