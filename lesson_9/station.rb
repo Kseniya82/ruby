@@ -7,6 +7,8 @@ class Station
 
   attr_reader :trains, :name
 
+  attr_accessor_with_history :name
+
   validate :name, :presence
 
   @@stations = []

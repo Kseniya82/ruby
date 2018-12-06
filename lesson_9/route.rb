@@ -6,7 +6,7 @@ class Route
 
   EQUALS_STATION_ERROR = 'Начальная и конечная станция совпадают'.freeze
 
-  ttr_reader :stations
+  attr_reader :stations
 
   valid :last_station, :presence
   valid :first_station, :presence

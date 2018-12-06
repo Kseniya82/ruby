@@ -13,8 +13,6 @@ class Train
 
   attr_reader :speed, :route, :cars
 
-  attr_accessor_with_history :number
-
   strong_attr_accessor :number, String
 
   validate :number, :presence

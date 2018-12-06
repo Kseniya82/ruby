@@ -7,7 +7,7 @@ module Validation
   module ClassMethods
     attr_reader :validations
 
-    def validate(name, type, *args)
+    def validate(name, type, args = nil)
       @validations ||= []
       @validations << { name_var: name, type: type, args: args }
     end
@@ -25,8 +25,8 @@ module Validation
 
     def validate!
       self.class.validations.each do |validation|
-        args = [validation[:name_var]]
-        args << validation[:args] if validation[:args] != []
+        value = instance_variable_get("@#{validation[:name_var]}")
+        args = [value, *validation[:args]]
         send("validate_#{validation[:type]}", *args)
       end
     end
@@ -36,11 +36,11 @@ module Validation
     end
 
     def validate_format(name, format)
-      raise "Атрибут #{name} не соответствует формату #{format}" if send(name) !~ format.first
+      raise "Атрибут #{name} не соответствует формату #{format}" if name !~ format
     end
 
     def validate_type(name, type)
-      raise "Атрибут #{name} не соответствует типу #{type.first}" if send(name).class != type.first
+      raise "Атрибут #{name} не соответствует типу #{type}" if name.class != type
     end
   end
 end
