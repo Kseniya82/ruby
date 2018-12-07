@@ -4,9 +4,10 @@ require_relative 'accessors'
 
 class Station
   include InstanceCounter
+  extend Accessors
+  include Validation
 
-  attr_reader :trains, :name
-
+  attr_reader :trains
   attr_accessor_with_history :name
 
   validate :name, :presence
@@ -18,8 +19,8 @@ class Station
   end
 
   def initialize(name)
-    @name = name
-    return unless valid?
+    self.name = name
+    validate!
 
     @trains = []
     @@stations << self

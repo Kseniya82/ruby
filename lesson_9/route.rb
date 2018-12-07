@@ -1,23 +1,25 @@
 require_relative 'instance_counter'
 require_relative 'validation'
+require_relative 'validation'
 
 class Route
   include InstanceCounter
+  include Validation
 
   EQUALS_STATION_ERROR = 'Начальная и конечная станция совпадают'.freeze
 
   attr_reader :stations
 
-  valid :last_station, :presence
-  valid :first_station, :presence
-  valid :last_station, :type, Station
-  valid :first_station, :type, Station
+  validate :last_station, :presence
+  validate :first_station, :presence
+  validate :last_station, :type, Station
+  validate :first_station, :type, Station
 
   def initialize(first_station, last_station)
     @first_station = first_station
     @last_station = last_station
     validate_no_equals
-    return unless valid?
+    validate!
 
     @stations = [first_station, last_station]
     register_instance

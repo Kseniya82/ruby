@@ -12,7 +12,6 @@ class Train
   NUMBER_FORMAT = /^[a-zа-яё\d]{3}\-?[a-zа-яё\d]{2}$/i.freeze
 
   attr_reader :speed, :route, :cars
-
   strong_attr_accessor :number, String
 
   validate :number, :presence
@@ -30,7 +29,7 @@ class Train
   end
 
   def initialize(number)
-    @number = number
+    self.number = number
     @cars = []
     @speed = 0
     validate!
